@@ -1,0 +1,34 @@
+syntax = "proto3";
+import "shared.proto";
+
+service AuthorService {
+  rpc find (AuthorId) returns (Author);
+  rpc list (Shared.Void) returns (AuthorList);
+  rpc create (AuthorCreate) returns (Author);
+  rpc update (AuthorUpdate) returns (Author);
+  rpc delete (AuthorId) returns (Shared.Void);
+}
+
+message AuthorId {
+  string id = 1;
+}
+
+message Author {
+  string id = 1;
+  string name = 2;
+  optional string website = 3;
+}
+
+message AuthorCreate {
+  string name = 1;
+  optional string website = 2;
+}
+
+message AuthorUpdate {
+  optional string name = 1;
+  optional string website = 2;
+}
+
+message AuthorList {
+  repeated Author authors = 1;
+}

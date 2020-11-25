@@ -1,0 +1,49 @@
+syntax = "proto3";
+import "shared.proto";
+import "authors.proto";
+
+service BookService {
+  rpc find (BookId) returns (Book);
+  rpc list (Shared.Void) returns (BookList);
+  rpc create (BookCreate) returns (Book);
+  rpc update (BookUpdate) returns (Book);
+  rpc delete (BookId) returns (Shared.Void);
+}
+
+message BookId {
+  string id = 1;
+}
+
+message Book {
+  string id = 1;
+  string title = 2;
+  string publisher = 3;
+  AuthorList authors = 4;
+  string summary = 5;
+  string isbn = 6;
+  uint32 pages = 7;
+}
+
+message BookCreate {
+  string title = 2;
+  string publisher = 3;
+  AuthorList authors = 4;
+  string summary = 5;
+  string isbn = 6;
+  uint32 pages = 7;
+}
+
+message BookUpdate {
+  optional string title = 2;
+  optional string publisher = 3;
+  optional AuthorList authors = 4;
+  optional string summary = 5;
+  optional string isbn = 6;
+  optional uint32 pages = 7;
+}
+
+message BookList {
+  repeated Book books = 1;
+}
+
+
