@@ -5,8 +5,8 @@ service AuthorService {
   rpc find (AuthorId) returns (Author);
   rpc list (Shared.Void) returns (AuthorList);
   rpc create (AuthorCreate) returns (Author);
-  rpc update (AuthorUpdate) returns (Author);
-  rpc delete (AuthorId) returns (Shared.Void);
+  rpc update (AuthorUpdateRequest) returns (Author);
+  rpc remove (AuthorId) returns (Shared.Void);
 }
 
 message AuthorId {
@@ -27,6 +27,11 @@ message AuthorCreate {
 message AuthorUpdate {
   optional string name = 1;
   optional string website = 2;
+}
+
+message AuthorUpdateRequest {
+  string id = 1;
+  AuthorUpdate authorUpdateParams = 2;
 }
 
 message AuthorList {
