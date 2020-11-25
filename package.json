@@ -6,7 +6,7 @@
   "scripts": {
     "start:server": "node src/server.js",
     "start:client": "node src/client.js",
-    "compile": "protoc --js_out=import_style=commonjs,binary:. proto/notes.proto"
+    "compile": "protoc --js_out=import_style=commonjs,binary:. proto/*.proto"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/khaosdoctor/rocketseat-grpc-workshop/issues"
   },
-  "homepage": "https://github.com/khaosdoctor/rocketseat-grpc-workshop#readme"
+  "homepage": "https://github.com/khaosdoctor/rocketseat-grpc-workshop#readme",
+  "dependencies": {
+    "grpc": "^1.24.4"
+  }
 }
