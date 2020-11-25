@@ -7,7 +7,7 @@ service BookService {
   rpc list (Shared.Void) returns (BookList);
   rpc create (BookCreate) returns (Book);
   rpc update (BookUpdate) returns (Book);
-  rpc delete (BookId) returns (Shared.Void);
+  rpc remove (BookId) returns (Shared.Void);
 }
 
 message BookId {
