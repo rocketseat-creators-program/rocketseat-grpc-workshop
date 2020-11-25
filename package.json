@@ -1,0 +1,21 @@
+{
+  "name": "grpc-books-workshop",
+  "version": "1.0.0",
+  "description": "Repositório do workshop sobre comunicação de microsserviços com gRPC",
+  "main": "src/server.js",
+  "scripts": {
+    "start:server": "node src/server.js",
+    "start:client": "node src/client.js",
+    "compile": "protoc --js_out=import_style=commonjs,binary:. proto/notes.proto"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khaosdoctor/rocketseat-grpc-workshop.git"
+  },
+  "author": "Lucas Santos <lhs.santoss@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khaosdoctor/rocketseat-grpc-workshop/issues"
+  },
+  "homepage": "https://github.com/khaosdoctor/rocketseat-grpc-workshop#readme"
+}
