@@ -12,7 +12,7 @@ class BookRepository {
     if (!fs.existsSync(BookRepository.dbLocation)) fs.mkdirSync(BookRepository.dbLocation, { recursive: true })
     if (!fs.existsSync(BookRepository.collectionPath)) fs.writeFileSync(BookRepository.collectionPath, '[]')
     this.#collection = require(BookRepository.collectionPath)
-    this.#collection = this.#collection.map(book => ({ ...book, id: new oid(book.id) }))
+    this.#collection = this.#collection
   }
 
   findById (id) {
@@ -24,12 +24,13 @@ class BookRepository {
   }
 
   listAll () {
-    return this.#collection
+    return this.#collection.map(book => ({ ...book, id: book.id }))
   }
 
   create (book) {
-    this.#collection.push({ id: new oid(), ...book })
-    return this
+    const newBook = { id: new oid().toHexString(), ...book }
+    this.#collection.push(newBook)
+    return newBook
   }
 
   delete (bookId) {
@@ -39,16 +40,19 @@ class BookRepository {
 
   update (bookId, updateData) {
     const book = this.findById(bookId)
-    const updatedBook = { ...book, ...updateData }
-    this.delete(bookId).create(updatedBook)
-    return this
+    const filteredData = Object.entries(updateData).reduce((acc, [key, value]) => {
+      if ((Array.isArray(value) && value.length > 0) || (value && !Array.isArray(value))) acc[key] = value
+      return acc
+    }, {}) // remove chaves em branco
+    const updatedBook = this.delete(bookId).create({ ...book, ...filteredData })
+    return updatedBook
   }
 
   #serialize (entity) {
     return JSON.stringify(entity)
   }
-  async save () {
-    await fs.promises.writeFile(BookRepository.collectionPath, this.#serialize(this.#collection))
+  save () {
+    fs.writeFileSync(BookRepository.collectionPath, this.#serialize(this.#collection))
     return this
   }
 }
