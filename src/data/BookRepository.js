@@ -6,35 +6,35 @@ class BookRepository {
   static dbLocation = path.resolve(__dirname, './.db')
   static collectionPath = path.resolve(BookRepository.dbLocation, 'books.json')
 
-  #collection = []
+  static #collection = []
 
   constructor () {
     if (!fs.existsSync(BookRepository.dbLocation)) fs.mkdirSync(BookRepository.dbLocation, { recursive: true })
     if (!fs.existsSync(BookRepository.collectionPath)) fs.writeFileSync(BookRepository.collectionPath, '[]')
-    this.#collection = require(BookRepository.collectionPath)
-    this.#collection = this.#collection
+    BookRepository.#collection = require(BookRepository.collectionPath)
+    BookRepository.#collection = BookRepository.#collection
   }
 
   findById (id) {
-    return this.#collection.find((book) => (new oid(book.id)).equals(id))
+    return BookRepository.#collection.find((book) => book.id === id)
   }
 
   search (key, value) {
-    return this.#collection.find((book) => book[key] === value)
+    return BookRepository.#collection.find((book) => book[key] === value)
   }
 
   listAll () {
-    return this.#collection.map(book => ({ ...book, id: book.id }))
+    return BookRepository.#collection.map(book => ({ ...book, id: book.id }))
   }
 
   create (book) {
     const newBook = { id: new oid().toHexString(), ...book }
-    this.#collection.push(newBook)
+    BookRepository.#collection.push(newBook)
     return newBook
   }
 
   delete (bookId) {
-    this.#collection = this.#collection.filter(book => !(new oid(book.id)).equals(bookId))
+    BookRepository.#collection = BookRepository.#collection.filter(book => !(new oid(book.id)).equals(bookId))
     return this
   }
 
@@ -52,7 +52,7 @@ class BookRepository {
     return JSON.stringify(entity)
   }
   save () {
-    fs.writeFileSync(BookRepository.collectionPath, this.#serialize(this.#collection))
+    fs.writeFileSync(BookRepository.collectionPath, this.#serialize(BookRepository.#collection))
     return this
   }
 }
