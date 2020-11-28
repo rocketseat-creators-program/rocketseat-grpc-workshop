@@ -17,9 +17,6 @@ class AuthorRepository {
 
   findById (id) {
     const author = AuthorRepository.#collection.find((author) => author.id === id)
-    console.log(`[DEBUG]  --------------------------------------------------------------------------------------------`)
-    console.log(`[DEBUG]  ~ file: AuthorRepository.js ~ line 20 ~ AuthorRepository ~ findById ~ author`, author)
-    console.log(`[DEBUG]  --------------------------------------------------------------------------------------------`)
     return author
   }
 
