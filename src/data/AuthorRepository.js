@@ -12,7 +12,6 @@ class AuthorRepository {
     if (!fs.existsSync(AuthorRepository.dbLocation)) fs.mkdirSync(AuthorRepository.dbLocation, { recursive: true })
     if (!fs.existsSync(AuthorRepository.collectionPath)) fs.writeFileSync(AuthorRepository.collectionPath, '[]')
     AuthorRepository.#collection = require(AuthorRepository.collectionPath)
-    AuthorRepository.#collection = AuthorRepository.#collection
   }
 
   findById (id) {
@@ -31,7 +30,7 @@ class AuthorRepository {
   create (author) {
     const newAuthor = { id: new oid().toHexString(), ...author }
     AuthorRepository.#collection.push(newAuthor)
-    return { ...author, id: newAuthor.id }
+    return newAuthor
   }
 
   delete (authorId) {
